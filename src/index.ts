@@ -1,11 +1,12 @@
 import { AssistantPackage, RuleDefinition } from '@sketch-hq/sketch-assistant-types'
 import FileFormat from '@sketch-hq/sketch-file-format-ts'
+import { calcLum, calcContrast } from './helper'
 
 type StyleId = string
 const sharedStyles: Map<StyleId, FileFormat.SharedStyle> = new Map()
 const IGNORE_CLASSES = ['artboard', 'page']
 
-const dls4_LayerStyle: RuleDefinition = {
+const checkSharedLayerStyle: RuleDefinition = {
   rule: async (context) => {
     const { utils } = context
 
@@ -25,12 +26,12 @@ const dls4_LayerStyle: RuleDefinition = {
     }
 
   },
-  name: 'dls4-assistant/LayerStyle',
+  name: 'dls4-assistant/checkSharedLayerStyle',
   title: 'Out-of-sync Layerstyle',
   description: 'Report layers that out-of-sync with shared style',
 }
 
-const dls4_TextStyle: RuleDefinition = {
+const checkSharedTextStyle: RuleDefinition = {
   rule: async (context) => {
     const { utils } = context
 
@@ -50,12 +51,12 @@ const dls4_TextStyle: RuleDefinition = {
     }
 
   },
-  name: 'dls4-assistant/TextStyle',
+  name: 'dls4-assistant/checkSharedTextStyle',
   title: 'Out-of-sync Textstyle',
   description: 'Report layers that out-of-sync with text style',
 }
 
-const dls4_SubPixel: RuleDefinition = {
+const checkSubpixel: RuleDefinition = {
   rule: async (context) => {
     const { utils } = context
 
@@ -76,12 +77,12 @@ const dls4_SubPixel: RuleDefinition = {
     }
 
   },
-  name: 'dls4-assistant/SubPixel',
+  name: 'dls4-assistant/checkSubpixel',
   title: 'Layers on Subpixel',
   description: 'Check layers are positioning on subpixel',
 }
 
-const dls4_UnstyledLayer: RuleDefinition = {
+const checkUnstyledLayers: RuleDefinition = {
   rule: async (context) => {
     const { utils } = context
 
@@ -93,21 +94,25 @@ const dls4_UnstyledLayer: RuleDefinition = {
     }
 
   },
-  name: 'dls4-assistant/UnstyledLayers',
+  name: 'dls4-assistant/checkUnstyledLayers',
   title: 'Layers do not use shared style',
   description: 'Report layers do not have shared style',
 }
 
+const
+
+  calcLum(2, 1)
+
 const assistant: AssistantPackage = async () => {
   return {
     name: 'dls4-assistant',
-    rules: [dls4_UnstyledLayer, dls4_LayerStyle, dls4_TextStyle, dls4_SubPixel],
+    rules: [checkUnstyledLayers, checkSharedLayerStyle, checkSharedTextStyle, checkSubpixel],
     config: {
       rules: {
-        'dls4-assistant/LayerStyle': { active: true },
-        'dls4-assistant/TextStyle': { active: true },
-        'dls4-assistant/SubPixel': { active: true },
-        'dls4-assistant/UnstyledLayers': { active: true }
+        'dls4-assistant/checkSharedLayerStyle': { active: true },
+        'dls4-assistant/checkSharedTextStyle': { active: true },
+        'dls4-assistant/checkSubpixel': { active: true },
+        'dls4-assistant/checkUnstyledLayers': { active: true }
       },
     },
   }
