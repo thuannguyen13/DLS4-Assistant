@@ -1,6 +1,6 @@
 import { AssistantPackage, RuleDefinition } from '@sketch-hq/sketch-assistant-types'
 import FileFormat from '@sketch-hq/sketch-file-format-ts'
-import { calcLum, calcContrast } from './helper'
+// import { calcLum, calcContrast } from './helper'
 
 type StyleId = string
 const sharedStyles: Map<StyleId, FileFormat.SharedStyle> = new Map()
@@ -90,6 +90,7 @@ const checkUnstyledLayers: RuleDefinition = {
       if (IGNORE_CLASSES.includes(layer._class)) continue
       if (layer.sharedStyleID == undefined) {
         utils.report(`This layer do not have Shared Style`, layer)
+        console.log(`This layer do not have Shared Style`, layer)
       }
     }
 
@@ -99,9 +100,17 @@ const checkUnstyledLayers: RuleDefinition = {
   description: 'Report layers do not have shared style',
 }
 
-const
+const checkTextWCAG_AA: RuleDefinition = {
+  rule: async (context) => {
+    const { utils } = context
 
-  calcLum(2, 1)
+  },
+  name: '',
+  title: '',
+  description: '',
+}
+
+
 
 const assistant: AssistantPackage = async () => {
   return {
